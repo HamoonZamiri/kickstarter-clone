@@ -1,12 +1,11 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Project extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    @Unique(["title"])
+    @Column({unique: true})
     title: string;
 
     @CreateDateColumn()
