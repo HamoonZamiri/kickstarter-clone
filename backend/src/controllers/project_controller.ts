@@ -2,11 +2,17 @@ import { Request, Response } from "express"
 import { Project } from "../entities/Project";
 import { AppDataSource } from "../server";
 
+
 export const getProjects = async (req: Request, res: Response) => {
-    console.log(req.body);
+    if(req)
+        console.log("happy");
     const projects = await AppDataSource.manager.find(Project);
-    console.log(projects);
-    res.status(200).json({"message": "get all projects"});
+    if(!projects){
+        res.status(404).json({ error: "No projects found" });
+    }
+    else {
+        res.status(200).json({"projects": projects});
+    }
 };
 
 export const createProject = async (req: Request, res: Response) => {
@@ -15,13 +21,18 @@ export const createProject = async (req: Request, res: Response) => {
     }
     const project = new Project();
     project.title = req.body.title;
-    await AppDataSource.manager.save(Project, project);
-    res.status(201).json({"message": "New Project Created"});
+    const projectSaved = await AppDataSource.manager.save(Project, project);
+    res.status(201).json({"project created": projectSaved});
 };
 
 export const getProject = async (req: Request, res: Response) => {
-    console.log(req);
-    res.status(200).json({"message": `get project with id ${req.params.id}`});
+    const _id  = parseInt(req.params.id);
+    const project = await AppDataSource.manager.findOneBy(Project, {id: _id});
+    if (project)
+        res.status(200).json({"project": project});
+    else{
+        res.status(404).json({error: "project not found"});
+    }
 };
 
 export const updateProject = async (req: Request, res: Response) => {
@@ -30,5 +41,7 @@ export const updateProject = async (req: Request, res: Response) => {
 };
 
 export const deleteProject = async (req: Request, res: Response) => {
+    const _id = parseInt(req.params.id);
+    AppDataSource.manager.delete(Project, {id: _id});
     res.status(200).json({"message": `delete project with id ${req.params.id}`});
 };

@@ -20,12 +20,12 @@ export const AppDataSource: DataSource = new DataSource ({
     synchronize: true,
     // migrations: [path.join(__dirname, "./migrations/*")]
 });
-
 AppDataSource.initialize()
     .then(() => {
         app.listen(PORT, () => {
             console.log(`listening on port ${PORT}`);
         });
+
     })
     .catch((error) => console.log(error));
 
