@@ -5,8 +5,11 @@ export class Project extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({unique: true})
+    @Column({ unique: true })
     title: string;
+
+    @Column({ nullable: true })
+    imgUrl: string;
 
     @CreateDateColumn()
     createdAt: Date;
