@@ -1,3 +1,3 @@
-interface IProject {
-    title: string
+export interface ErrorResponse {
+    error: string
 }
