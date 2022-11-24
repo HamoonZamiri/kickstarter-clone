@@ -3,7 +3,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, U
 @Entity()
 export class Project extends BaseEntity{
     @PrimaryGeneratedColumn()
-    id: number;
+    id: string;
 
     @Column({ unique: true })
     title: string;
