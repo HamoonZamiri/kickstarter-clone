@@ -20,6 +20,8 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "class-validator": "^0.13.2",
     "colors.ts": "^1.0.20",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
