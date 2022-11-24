@@ -1,5 +1,5 @@
 import express from "express";
-import project_router from "./routes/project_routes";
+import project_router from "./routes/projectRoutes";
 import { PORT } from "./utils/config";
 import { DataSource } from "typeorm"
 import { Project } from "./entities/Project";
