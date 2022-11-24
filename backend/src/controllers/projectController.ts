@@ -32,7 +32,7 @@ export const createProject = async (req: Request, res: Response<Project | ErrorR
 };
 
 export const getProject = async (req: Request, res: Response<Project | ErrorResponse>) => {
-    const id  = parseInt(req.params.id);
+    const { id } = req.params;
     const project = await AppDataSource.manager.findOneBy(Project, {id: id});
     if (project)
         res.status(200).json(project);
@@ -42,8 +42,8 @@ export const getProject = async (req: Request, res: Response<Project | ErrorResp
 };
 
 export const updateProject = async (req: Request, res: Response<Project | ErrorResponse>) => {
-    const _id  = parseInt(req.params.id);
-    const project = await AppDataSource.manager.findOneBy(Project, {id: _id});
+    const { id } = req.params;
+    const project = await AppDataSource.manager.findOneBy(Project, { id });
     if (project){
         res.status(200).json(project);
     }
@@ -53,7 +53,7 @@ export const updateProject = async (req: Request, res: Response<Project | ErrorR
 };
 
 export const deleteProject = async (req: Request, res: Response) => {
-    const _id = parseInt(req.params.id);
-    AppDataSource.manager.delete(Project, {id: _id});
+    const { id } = req.params;
+    AppDataSource.manager.delete(Project, { id });
     res.status(200).json({"message": `delete project with id ${req.params.id}`});
 };
