@@ -1,7 +1,7 @@
 import { NextFunction, Request } from "express";
-import { findOneById } from "src/services/userService";
-import { GenericResponse } from "src/utils/interfaces";
-import { verifyJwt } from "src/utils/jwt";
+import { findOneById } from "../services/userService";
+import { GenericResponse } from "../utils/interfaces";
+import { verifyJwt } from "../utils/jwt";
 
 export const requireAuth = async(req: Request, res: GenericResponse, next: NextFunction) => {
     try {

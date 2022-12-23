@@ -1,6 +1,6 @@
 import config from 'config';
+// slightly skeptical about where config is checking
 import jwt, { SignOptions } from "jsonwebtoken";
-
 export const signJwt = (
     payload: Object,
     keyName: "accessTokenPrivateKey" | "refreshTokenPrivateKey",
