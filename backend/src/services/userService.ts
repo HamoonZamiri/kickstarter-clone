@@ -1,13 +1,13 @@
-import { User } from "src/entities/User";
-import { AppDataSource } from "src/server";
-import { UserInput } from "src/utils/interfaces";
-import { signJwt } from "src/utils/jwt";
+import { User } from "../entities/User";
+import { CreateUserInput } from "../utils/interfaces";
+import { signJwt } from "../utils/jwt";
 import { DeepPartial } from "typeorm";
 import config from "config";
+import { AppDataSource } from "../utils/dataSource";
 
 const userRepository = AppDataSource.getRepository(User);
 
-export const createUser = async(user: UserInput) => {
+export const createUser = async(user: CreateUserInput) => {
     // const newUser = manager.create(User, user);
     return await userRepository.save(userRepository.create(user as DeepPartial<User>));
 }

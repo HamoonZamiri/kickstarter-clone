@@ -1,10 +1,7 @@
 import { Request, Response } from "express"
-import { ErrorResponse } from "src/utils/interfaces";
+import { ErrorResponse } from "../utils/interfaces";
 import { Project } from "../entities/Project";
-import { AppDataSource } from "../server";
-
-
-
+import { AppDataSource } from "../utils/dataSource";
 export const getProjects = async (req: Request, res: Response<Project[] | ErrorResponse>) => {
     if(req)
         console.log("happy");
