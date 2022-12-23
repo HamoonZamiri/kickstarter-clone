@@ -1,27 +1,18 @@
+require("dotenv").config();
 import express from "express";
-import project_router from "./routes/projectRoutes";
+import projectRouter from "./routes/projectRoutes";
 import { PORT } from "./utils/config";
-import { DataSource } from "typeorm"
-import { Project } from "./entities/Project";
+import userRouter from "./routes/userRoutes";
+import { AppDataSource } from "./utils/dataSource";
 
-const app: express.Application = express();
-app.use(express.json());
-
-app.use("/api/projects", project_router);
-
-export const AppDataSource: DataSource = new DataSource ({
-    type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: "postgres",
-    database: "kickstarter",
-    entities: [Project],
-    synchronize: true,
-    // migrations: [path.join(__dirname, "./migrations/*")]
-});
 AppDataSource.initialize()
-    .then(() => {
+    .then(async () => {
+        const app: express.Application = express();
+        app.use(express.json());
+
+        //routes
+        app.use("/api/projects", projectRouter);
+        app.use("/api/users", userRouter);
         app.listen(PORT, () => {
             console.log(`listening on port ${PORT}`);
         });
