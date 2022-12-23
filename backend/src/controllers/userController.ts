@@ -1,7 +1,7 @@
 import { CookieOptions, NextFunction, Request, Response } from "express";
 import config from 'config';
 import { CreateUserInput, GenericResponse } from "../utils/interfaces";
-import { createUser, findOneByEmail, findOneById, signTokens } from "../services/userService";
+import { createUser, findOneByEmail, findOneById, getUsers, signTokens } from "../services/userService";
 import { User } from "../entities/User";
 import { signJwt, verifyJwt } from "../utils/jwt";
 
@@ -86,3 +86,13 @@ export const loginUserHandler = async(req: Request<{}, {}, CreateUserInput>, res
         next(error);
     }
 };
+export const getAllUsers = async(req: Request, res: GenericResponse) => {
+    try {
+        const users = await getUsers();
+        res.status(200).json({ message: "users fetched successfully", data: users });
+    }
+    catch(error){
+        console.log(error);
+        res.status(400).json({ message: "users could not be fetched" });
+    }
+}

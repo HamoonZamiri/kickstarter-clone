@@ -7,6 +7,9 @@ import { AppDataSource } from "../utils/dataSource";
 
 const userRepository = AppDataSource.getRepository(User);
 
+export const getUsers = async() => {
+    return await userRepository.find();
+}
 export const createUser = async(user: CreateUserInput) => {
     // const newUser = manager.create(User, user);
     return await userRepository.save(userRepository.create(user as DeepPartial<User>));
