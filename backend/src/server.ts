@@ -4,11 +4,13 @@ import projectRouter from "./routes/projectRoutes";
 import { PORT } from "./utils/config";
 import userRouter from "./routes/userRoutes";
 import { AppDataSource } from "./utils/dataSource";
+import cookieParser from "cookie-parser";
 
 AppDataSource.initialize()
     .then(async () => {
         const app: express.Application = express();
         app.use(express.json());
+        app.use(cookieParser())
 
         //routes
         app.use("/api/projects", projectRouter);
