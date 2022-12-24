@@ -93,6 +93,6 @@ export const getAllUsers = async(req: Request, res: GenericResponse) => {
     }
     catch(error){
         console.log(error);
-        res.status(400).json({ message: "users could not be fetched" });
+        res.status(400).json({ message: error});
     }
 }

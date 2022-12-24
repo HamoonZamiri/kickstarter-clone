@@ -1,12 +1,10 @@
-import { IsDate, IsEmail, Length } from "class-validator";
+import { IsEmail, Length } from "class-validator";
 import { BeforeInsert, Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import bcrypt from "bcryptjs";
+import { BaseModel } from "./BaseModel";
 
 @Entity()
-export class User {
-    @PrimaryGeneratedColumn()
-    id: string;
-
+export class User extends BaseModel {
     @Length(6, 20)
     @Column({ unique: true, nullable: false })
     username: string;
@@ -18,14 +16,6 @@ export class User {
 
     @Column({ nullable: false })
     password: string;
-
-    @IsDate()
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @IsDate()
-    @UpdateDateColumn()
-    updatedAt: Date;
 
     @BeforeInsert()
     async hashPassword() {

@@ -1,9 +1,8 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseModel } from "./BaseModel";
 
 @Entity()
-export class Project extends BaseEntity{
-    @PrimaryGeneratedColumn()
-    id: string;
+export class Project extends BaseModel{
 
     @Column({ unique: true })
     title: string;
@@ -13,12 +12,6 @@ export class Project extends BaseEntity{
 
     @Column({ nullable: false, default: "" })
     description: string;
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
 
     toJSON() {
         return {...this}
