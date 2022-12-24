@@ -1,17 +1,25 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { Column, Entity } from "typeorm";
+import { BaseModel } from "./BaseModel";
 
 @Entity()
-export class Project extends BaseEntity{
-    @PrimaryGeneratedColumn()
-    id: number;
+export class Project extends BaseModel{
 
-    @Column()
-    @Unique(["title"])
+    @Column({ unique: true })
     title: string;
 
-    @CreateDateColumn()
-    createdAt: Date;
+    @Column({ nullable: true })
+    imgUrl: string;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+    @Column({ nullable: false, default: "" })
+    description: string;
+
+    @Column({ default: 0 })
+    backers: number;
+
+    @Column()
+    daysTillExpiry: number;
+
+    toJSON() {
+        return {...this, imgUrl: undefined}
+    }
 }
