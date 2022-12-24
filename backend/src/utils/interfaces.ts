@@ -15,3 +15,16 @@ export interface CreateUserInput {
     email: string,
     password: string,
 }
+
+export type CreateProjectInput = {
+    title: string,
+    imgUrl?: string,
+    description: string,
+    daysTillExpiry: number
+}
+export type UpdateProjectInput = {
+    title?: string,
+    imgUrl?: string,
+    description?: string,
+    daysTillExpiry?: number
+}

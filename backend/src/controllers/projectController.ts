@@ -1,56 +1,73 @@
 import { Request, Response } from "express"
-import { ErrorResponse } from "../utils/interfaces";
+import { CreateProjectInput, GenericResponse } from "../utils/interfaces";
 import { Project } from "../entities/Project";
 import { AppDataSource } from "../utils/dataSource";
-export const getProjects = async (req: Request, res: Response<Project[] | ErrorResponse>) => {
-    if(req)
-        console.log("happy");
-    const projects = await AppDataSource.manager.find(Project);
-    if(!projects){
-        res.status(404).json({ error: "No projects found" });
+import { deleteProjectById, findProjectById, getProjects, saveNewProject, updateProjectById } from "../services/projectService";
+export const getAllProjects = async (req: Request, res: GenericResponse) => {
+    try {
+        const projects = await getProjects();
+        res.status(200).json({message: "Projects fetched successfully", data: projects});
     }
-    else {
-        res.status(200).json(projects);
+    catch(error){
+        console.log(error)
+        res.status(500).json({message: "Something went wrong"});
     }
 };
 
-export const createProject = async (req: Request, res: Response<Project | ErrorResponse>) => {
-    if(!req.body.title){
+export const createProject = async (req: Request<{}, {}, CreateProjectInput>, res: GenericResponse) => {
+    try{
+        if(!req.body.title){
         res.status(400).json({error: "title is required"});
+        }
+        if(!req.body.description){
+            res.status(400).json({error: "description is required"});
+        }
+        const newProject: CreateProjectInput = req.body;
+        const savedProject = saveNewProject(newProject);
+        res.status(201).json({message: "Project created successfully", data: savedProject});
     }
-    if(!req.body.description){
-        res.status(400).json({error: "description is required"});
+    catch(error){
+        console.log(error);
+        res.status(500).json({message: "Something went wrong"});
     }
-
-    const newProject = AppDataSource.manager.create(Project, {title: req.body.title, imgUrl: req.body.imgUrl, description: req.body.description});
-
-    const projectSaved = await AppDataSource.manager.save(Project, newProject);
-    res.status(201).json(projectSaved);
 };
 
-export const getProject = async (req: Request, res: Response<Project | ErrorResponse>) => {
+export const getProject = async (req: Request, res: GenericResponse) => {
     const { id } = req.params;
-    const project = await AppDataSource.manager.findOneBy(Project, {id: id});
+    const project = await findProjectById(id);
     if (project)
-        res.status(200).json(project);
+        res.status(200).json({message: "Project found", data: project});
     else{
-        res.status(404).json({error: "project not found"});
+        res.status(404).json({message: "Project not found"});
     }
 };
 
-export const updateProject = async (req: Request, res: Response<Project | ErrorResponse>) => {
-    const { id } = req.params;
-    const project = await AppDataSource.manager.findOneBy(Project, { id });
-    if (project){
-        res.status(200).json(project);
+export const updateProject = async (req: Request, res: GenericResponse) => {
+    try {
+        const { id } = req.params;
+        const { title, imgUrl, description, daysTillExpiry } = req.body;
+        const updatedProject = await updateProjectById(id, {title, imgUrl, description, daysTillExpiry});
+        if (updatedProject){
+            res.status(200).json({message: "Project updated successfully", data: updatedProject});
+        }
+        else{
+            res.status(400).json({message: "Project could not be updated"});
+        }
     }
-    else{
-        res.status(400).json({error: "project could not be updated"});
+    catch(error){
+        console.log(error);
+        res.status(400).json({message: "Project could not be updated"});
     }
 };
 
-export const deleteProject = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    AppDataSource.manager.delete(Project, { id });
-    res.status(200).json({"message": `delete project with id ${req.params.id}`});
+export const deleteProject = async (req: Request, res: GenericResponse) => {
+    try {
+        const { id } = req.params;
+        const deletedProject = await deleteProjectById(id);
+        res.status(200).json({"message": `delete project with id ${req.params.id}`, data: deletedProject});
+    }
+    catch(error){
+        console.log(error);
+        res.status(400).json({message: "Project could not be deleted"});
+    }
 };

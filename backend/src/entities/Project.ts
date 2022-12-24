@@ -1,4 +1,4 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity } from "typeorm";
 import { BaseModel } from "./BaseModel";
 
 @Entity()
@@ -13,7 +13,13 @@ export class Project extends BaseModel{
     @Column({ nullable: false, default: "" })
     description: string;
 
+    @Column({ default: 0 })
+    backers: number;
+
+    @Column()
+    daysTillExpiry: number;
+
     toJSON() {
-        return {...this}
+        return {...this, imgUrl: undefined}
     }
 }
