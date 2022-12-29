@@ -1,7 +1,8 @@
 import { IsEmail, Length } from "class-validator";
-import { BeforeInsert, Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import bcrypt from "bcryptjs";
 import { BaseModel } from "./BaseModel";
+import { Project } from "./Project";
 
 @Entity()
 export class User extends BaseModel {
@@ -16,6 +17,9 @@ export class User extends BaseModel {
 
     @Column({ nullable: false })
     password: string;
+
+    @OneToMany(() => Project, project => project.user)
+    projects: Project[];
 
     @BeforeInsert()
     async hashPassword() {

@@ -10,7 +10,7 @@ export interface GenericResponse extends Response {
     data?: ResponseData,
     accessToken?: string,
 }
-export interface CreateUserInput {
+export type CreateUserInput = {
     username: string,
     email: string,
     password: string,
@@ -20,11 +20,20 @@ export type CreateProjectInput = {
     title: string,
     imgUrl?: string,
     description: string,
-    daysTillExpiry: number
+    daysTillExpiry: number,
 }
+
 export type UpdateProjectInput = {
     title?: string,
     imgUrl?: string,
     description?: string,
     daysTillExpiry?: number
+}
+
+export type UpdateUserInput = {
+    username?: string,
+    email?: string,
+    password?: string,
+    imgUrl?: string,
+    projects?: Project[]
 }

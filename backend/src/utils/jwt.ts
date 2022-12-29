@@ -1,6 +1,7 @@
 import config from 'config';
 // slightly skeptical about where config is checking
 import jwt, { SignOptions } from "jsonwebtoken";
+import { findOneById } from '../services/userService';
 export const signJwt = (
     payload: Object,
     keyName: "accessTokenPrivateKey" | "refreshTokenPrivateKey",
@@ -26,4 +27,11 @@ export const verifyJwt = <T>(
     catch (error){
         return null;
     }
+}
+export const getUserByJWT = async (token: string) => {
+    const decoded = await verifyJwt<{sub: string}>(token, "accessTokenPublicKey");
+    if(decoded){
+        return await findOneById(decoded.sub)
+    }
+    return null;
 }

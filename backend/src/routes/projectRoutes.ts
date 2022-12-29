@@ -1,9 +1,11 @@
 import express from "express";
-import { createProject, deleteProject, getProject, getProjects, updateProject } from "../controllers/projectController";
+import { createProject, deleteProject, getAllProjects, getProject, updateProject } from "../controllers/projectController";
+import { requireAuth } from "../middleware/requireAuth";
 
 const projectRouter: express.Router = express.Router();
 //get all projects
-projectRouter.route("/").get(getProjects).post(createProject);
+projectRouter.post("/", requireAuth, createProject);
+projectRouter.route("/").get(getAllProjects);
 projectRouter.route("/:id").get(getProject).put(updateProject).delete(deleteProject);
 
 export default projectRouter;

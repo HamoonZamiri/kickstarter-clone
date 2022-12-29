@@ -1,5 +1,6 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, ManyToOne } from "typeorm";
 import { BaseModel } from "./BaseModel";
+import { User } from "./User";
 
 @Entity()
 export class Project extends BaseModel{
@@ -16,8 +17,11 @@ export class Project extends BaseModel{
     @Column({ default: 0 })
     backers: number;
 
-    @Column()
+    @Column({ default: 30 })
     daysTillExpiry: number;
+
+    @ManyToOne(() => User, user => user.projects)
+    user: User;
 
     toJSON() {
         return {...this, imgUrl: undefined}

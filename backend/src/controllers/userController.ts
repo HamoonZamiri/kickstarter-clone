@@ -1,7 +1,7 @@
 import { CookieOptions, NextFunction, Request, Response } from "express";
 import config from 'config';
 import { CreateUserInput, GenericResponse } from "../utils/interfaces";
-import { createUser, findOneByEmail, findOneById, getUsers, signTokens } from "../services/userService";
+import { createUser, deleteUserById, findOneByEmail, findOneById, getUsers, signTokens } from "../services/userService";
 import { User } from "../entities/User";
 import { signJwt, verifyJwt } from "../utils/jwt";
 
@@ -90,6 +90,18 @@ export const getAllUsers = async(req: Request, res: GenericResponse) => {
     try {
         const users = await getUsers();
         res.status(200).json({ message: "users fetched successfully", data: users });
+    }
+    catch(error){
+        console.log(error);
+        res.status(400).json({ message: error});
+    }
+}
+
+export const deleteUserHandler = async(req: Request, res: GenericResponse) => {
+    try {
+        const { id } = req.params;
+        const deleted = await deleteUserById(id);
+        res.status(200).json({ message: "user deleted successfully", data: deleted });
     }
     catch(error){
         console.log(error);
