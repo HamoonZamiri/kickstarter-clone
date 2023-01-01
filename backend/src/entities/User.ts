@@ -1,5 +1,5 @@
 import { IsEmail, Length } from "class-validator";
-import { BeforeInsert, Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, Index, OneToMany } from "typeorm";
 import bcrypt from "bcryptjs";
 import { BaseModel } from "./BaseModel";
 import { Project } from "./Project";

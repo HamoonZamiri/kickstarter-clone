@@ -23,7 +23,7 @@ export const findOneById = async(userId: string) => {
     return await userRepository.findOneBy({id: userId});
 }
 
-export const updateUserById = async(id: string, user: UpdateUserInput) => {
+export const updateUserById = async(id: string, user: Partial<User>) => {
     return await userRepository.update({ id }, user);
 }
 

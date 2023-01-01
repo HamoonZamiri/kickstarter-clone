@@ -27,7 +27,8 @@ export type UpdateProjectInput = {
     title?: string,
     imgUrl?: string,
     description?: string,
-    daysTillExpiry?: number
+    daysTillExpiry?: number,
+    backers?: number
 }
 
 export type UpdateUserInput = {

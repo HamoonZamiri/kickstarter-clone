@@ -84,8 +84,8 @@ export const getProject = async (req: Request, res: GenericResponse) => {
 export const updateProject = async (req: Request, res: GenericResponse) => {
     try {
         const { id } = req.params;
-        const { title, imgUrl, description, daysTillExpiry } = req.body;
-        const updatedProject = await updateProjectById(id, { title, imgUrl, description, daysTillExpiry});
+        const { title, imgUrl, description, daysTillExpiry, backers } = req.body;
+        const updatedProject = await updateProjectById(id, { title, imgUrl, description, daysTillExpiry, backers });
         if (updatedProject){
             res.status(200).json({message: "Project updated successfully", data: updatedProject});
         }
